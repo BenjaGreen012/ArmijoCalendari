@@ -11,23 +11,23 @@ h1 {
     background-color: #fffafa;
     text-align: center;
 }
-#diasc {
-    border: 1px solid black;
-    border-collapse:
-        separate;
-    border-spacing: 4px;
+#dias{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-#diasc th,
-#diasc td {
-    font: normal 14pt arial;
-    width: 70px;
-    height: 30px;
+#dias div{
+    display: inline;
+    flex-basis: 100px;  
 }
-#diasc th {
-    color: #990099;
-    background-color: #5ecdec
+#numsDias div{
+    display: inline-block;
+    width: 11%;
+    border: solid;
+    margin: 1%;
 }
-#diasc td {
-    color: #492736;
-    background-color: #9bf5ff
+.sabadoDomingo{
+    background-color: greenyellow;
+    border: solid;
+    width: 10%;
 }
