@@ -34,3 +34,8 @@ h1 {
 #botones{
     display: flex;
 }
+.diasMesQueNoSon{
+    background-color: gray;
+    border: solid;
+    width: 10%;
+}
