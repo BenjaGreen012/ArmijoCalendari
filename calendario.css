@@ -1,0 +1,33 @@
+* {
+    margin: auto;
+}
+h1 {
+    text-align: center;
+    padding: 0.5em;
+}
+#calendario {
+    border: 4px double black;
+    max-width: 536px;
+    background-color: #fffafa;
+    text-align: center;
+}
+#diasc {
+    border: 1px solid black;
+    border-collapse:
+        separate;
+    border-spacing: 4px;
+}
+#diasc th,
+#diasc td {
+    font: normal 14pt arial;
+    width: 70px;
+    height: 30px;
+}
+#diasc th {
+    color: #990099;
+    background-color: #5ecdec
+}
+#diasc td {
+    color: #492736;
+    background-color: #9bf5ff
+}
