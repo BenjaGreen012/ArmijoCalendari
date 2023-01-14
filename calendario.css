@@ -10,7 +10,7 @@ h1 {
 #calendario {
     border: 4px double black;
     max-width: 536px;
-    background-color: #fffafa;
+    background-color: pink;
     text-align: center;
 }
 
@@ -40,14 +40,4 @@ h1 {
 
 #botones {
     display: flex;
-}
-
-#button1 {
-    background-color: #f44336;
-    border-radius: 4px;
-}
-
-#button2 {
-    background-color: #008CBA;
-    border-radius: 4px;
 }
