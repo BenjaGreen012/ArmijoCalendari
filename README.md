@@ -7,7 +7,7 @@ En primer lloc buscaré el dia de la setmana del dia 1 del mes. A partir d'aquí
 En una etapa més avançada podria afegir botons els quals canviaran el mes.
 
 # A067 - Activitat 6 7a part: Fusionar les diferents branques a la branca main.
-A l'hora de fer el merge m'han sortit diverses millores que fer:
+Amb l'ajuda del meu QA Engineer (Carbó Garcia, Marc) que m'ha aportat diverses milloràs que he aplicat al calendari.
 ![issue](./img/isues.png)
 Però com eren bastant fàcil d'arreglar no he tingut grans complicacions a l'hora de fer els mergs
 ![merged](./img/mergs.png)
