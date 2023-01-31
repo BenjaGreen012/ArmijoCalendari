@@ -113,34 +113,47 @@ function generarNumerosCaledario() {
         for (let j = 0; j < DIAS; j++) {
             if (primeraSetmana - 1 > 0) {
                 if (j == 6) {
-                    let idDia = anyo + (mes < 10 ? "0" + mes : mes) + (ultimoMesAnterior);
+                    let mesString = (mes + 1).toString().padStart(2, '0');
+                    let diaString = ultimoMesAnterior.toString().padStart(2, '0');
+                    let idDia = anyo + mesString + diaString;
                     numDias.innerHTML += '<div class="diasCalendario sabadoDomingo disQueNoSon" id="' + idDia + '" onclick="mostrarLosComentarios(this)">' + ultimoMesAnterior + '</div>';
                     ultimoMesAnterior++;
                     primeraSetmana--;
                 } else {
-                    let idDia = anyo + (mes < 10 ? "0" + mes : mes) + (ultimoMesAnterior);
+                    let mesString = (mes + 1).toString().padStart(2, '0');
+                    let diaString = ultimoMesAnterior.toString().padStart(2, '0');
+                    let idDia = anyo + mesString + diaString;
                     numDias.innerHTML += '<div class="diasCalendario diasMesQueNoSon disQueNoSon" id="' + idDia + '" onclick="mostrarLosComentarios(this)">' + ultimoMesAnterior + '</div>';
                     ultimoMesAnterior++;
                     primeraSetmana--;
                 }
             } else {
                 if (j == 5 || j == 6) {
-                    let idDia = anyo + (mes < 10 ? "0" + mes : mes) + (cont < 10 ? "0" + cont : cont);
+                    let mesString = (mes + 1).toString().padStart(2, '0');
+                    let diaString = cont.toString().padStart(2, '0');
+                    let idDia = anyo + mesString + diaString;
                     if (cont <= ultimo.getDate()) {
                         numDias.innerHTML += '<div class="diasCalendario sabadoDomingo" id="' + idDia + '" onclick="guardadCosasEnLosDias(' + cont + ');mostrarLosComentarios(this)">' + cont + '</div>';
                         cont++;
                     } else {
-                        let idDia = anyo + (mes < 10 ? "0" + mes : mes) + (cont < 10 ? "0" + cont : cont);
+                        let mesString = (mes + 1).toString().padStart(2, '0');
+                        let diaString = contDespues.toString().padStart(2, '0');
+                        let idDia = anyo + mesString + diaString;
                         numDias.innerHTML += '<div class="diasCalendario diasMesQueNoSon disQueNoSon" id="' + idDia + '" onclick="guardadCosasEnLosDias(' + contDespues + ');mostrarLosComentarios(this)">' + contDespues + ' </div>';
                         contDespues++;
                     }
                 } else {
                     if (cont <= ultimo.getDate()) {
-                        let idDia = anyo + (mes < 10 ? "0" + mes : mes) + (cont < 10 ? "0" + cont : cont);
+                        let mesString = (mes + 1).toString().padStart(2, '0');
+                        let diaString = cont.toString().padStart(2, '0');
+                        let idDia = anyo + mesString + diaString;
                         numDias.innerHTML += '<div class="diasCalendario" id="' + idDia + '" onclick="guardadCosasEnLosDias(' + cont + ');mostrarLosComentarios(this)">' + cont + ' </div>';
                         cont++;
                     } else {
-                        let idDia = anyo + (mes < 10 ? "0" + mes : mes) + (contDespues < 10 ? "0" + contDespues : contDespues);
+                        let mesString = (mes + 2).toString().padStart(2, '0');
+                        let diaString = contDespues.toString().padStart(2, '0');
+                        let idDia = anyo + mesString + diaString;
+                        console.log(idDia);
                         numDias.innerHTML += '<div class="diasCalendario diasMesQueNoSon disQueNoSon" id="' + idDia + '" onclick="guardadCosasEnLosDias(' + contDespues + ');mostrarLosComentarios(this)">' + contDespues + ' </div>';
                         contDespues++;
                     }
@@ -155,7 +168,9 @@ function guardadCosasEnLosDias(contRebut) {
     let textoAGuarda = prompt('Comentario:')
     if (textoAGuarda != null && textoAGuarda != '') {
         let dia = contRebut;
-        let idDia = anyo + (mes < 10 ? "0" + mes : mes) + (dia < 10 ? "0" + dia : dia);
+        let mesString = (mes + 1).toString().padStart(2, '0');
+        let diaString = dia.toString().padStart(2, '0');
+        let idDia = anyo + mesString + diaString;
         let comentario = {
             idDia,
             textoAGuarda
@@ -190,11 +205,11 @@ function mostrarLosComentarios(objectRebut) {
 
     let fecha = new Date();
     fecha.setFullYear(anyo);
-    fecha.setMonth(mes);
+    fecha.setMonth(mes-1);
     fecha.setDate(dia);
     for (let i = 0; i < comentarioParaEscribir.length; i++) {
         if (id == comentarioParaEscribir[i].idDia) {
-            listaComentarios.innerHTML += '<p> El comentario del dia ' + fecha.toLocaleDateString("es-ES",{ day: '2-digit', month: '2-digit', year: 'numeric'})+ ' es: ' + comentarioParaEscribir[i].textoAGuarda;
+            listaComentarios.innerHTML += '<p> El comentario del dia ' + fecha.toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' es: ' + comentarioParaEscribir[i].textoAGuarda;
         }
     }
 }
