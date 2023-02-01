@@ -8,8 +8,7 @@ let numDias = document.getElementById('numsDias');
 let listaComentarios = document.getElementById('listaDeComentarios');
 let cosasDate = new Date();
 let anyo = cosasDate.getFullYear();
-let mes = cosasDate.getMonth();
-// let mes = 4;
+let mes = cosasDate.getMonth(); 1
 let ultimoMesAnterior = new Date(anyo, mes - 2, 0).getDate();
 let anyoActual = cosasDate.getFullYear();
 let ultimo = new Date(anyo, mes + 1, 0);
@@ -23,9 +22,14 @@ let primeraSetmana = primero.getDay();
 if (primeraSetmana == 0) {
     primeraSetmana = 7;
 }
+if (localStorage.getItem('festiusAnuals') === null || localStorage.getItem('festiusFixes') === null) {
+    guardarLosFestiusAunals();
+}
 ultimoMesAnterior = ultimoMesAnterior - primeraSetmana + 2;
 generarDiasSetmana();
 generarNumerosCaledario();
+marcarDiasConComentarios();
+marcarLosDiasQueTienenFestivo()
 function generarDiasSetmana() {
     for (let i = 0; i < DIAS; i++) {
         generarDias.innerHTML += '<div>' + diasSetmana[i] + '</div>';
@@ -47,6 +51,8 @@ function generarMesAnterior() {
         ultimoMesAnterior = new Date(anyo, mes - 2, 0).getDate();
         ultimoMesAnterior = ultimoMesAnterior - primeraSetmana + 2;
         generarNumerosCaledario();
+        marcarDiasConComentarios();
+        marcarLosDiasQueTienenFestivo()
         escribirMes.innerHTML = mesesDelAnyo[mes];
     } else {
         mes = 11;
@@ -64,6 +70,8 @@ function generarMesAnterior() {
         ultimoMesAnterior = new Date(anyo, mes - 2, 0).getDate();
         ultimoMesAnterior = ultimoMesAnterior - primeraSetmana + 2;
         generarNumerosCaledario();
+        marcarDiasConComentarios();
+        marcarLosDiasQueTienenFestivo()
         escribirMes.innerHTML = mesesDelAnyo[mes];
         escribirAnyo.innerHTML = anyo;
         console.log(anyo);
@@ -85,6 +93,8 @@ function generarMesSiguiente() {
         ultimoMesAnterior = new Date(anyo, mes - 2, 0).getDate();
         ultimoMesAnterior = ultimoMesAnterior - primeraSetmana + 2;
         generarNumerosCaledario();
+        marcarDiasConComentarios();
+        marcarLosDiasQueTienenFestivo()
         escribirMes.innerHTML = mesesDelAnyo[mes];
     } else {
         numDias.innerHTML = "";
@@ -102,6 +112,8 @@ function generarMesSiguiente() {
         ultimoMesAnterior = new Date(anyo, mes - 2, 0).getDate();
         ultimoMesAnterior = ultimoMesAnterior - primeraSetmana + 2;
         generarNumerosCaledario();
+        marcarDiasConComentarios();
+        marcarLosDiasQueTienenFestivo()
         escribirMes.innerHTML = mesesDelAnyo[mes];
         escribirAnyo.innerHTML = anyo;
     }
@@ -153,7 +165,6 @@ function generarNumerosCaledario() {
                         let mesString = (mes + 2).toString().padStart(2, '0');
                         let diaString = contDespues.toString().padStart(2, '0');
                         let idDia = anyo + mesString + diaString;
-                        console.log(idDia);
                         numDias.innerHTML += '<div class="diasCalendario diasMesQueNoSon disQueNoSon" id="' + idDia + '" onclick="guardadCosasEnLosDias(' + contDespues + ');mostrarLosComentarios(this)">' + contDespues + ' </div>';
                         contDespues++;
                     }
@@ -191,11 +202,16 @@ function guardadCosasEnLosDias(contRebut) {
             alert('Tu navegador no permite localStorage');
         }
     }
+    marcarDiasConComentarios();
 }
 function mostrarLosComentarios(objectRebut) {
     let id = objectRebut.id;
     let comentariosDeLosDias = localStorage.getItem("cositas");
+    let diasFestivosAnueales=localStorage.getItem("festiusAnuals");
+    let diasFestivosFix=localStorage.getItem("festiusFixes");
     let comentarioParaEscribir = JSON.parse(comentariosDeLosDias);
+    let comentarioDiaFestivo=JSON.parse(diasFestivosAnueales);
+    let comentarioDiaFestivoFix=JSON.parse(diasFestivosFix);
     listaComentarios.innerHTML = "";
     let anyo = id.substring(0, 4);
     let mes = id.substring(4, 6);
@@ -205,11 +221,103 @@ function mostrarLosComentarios(objectRebut) {
 
     let fecha = new Date();
     fecha.setFullYear(anyo);
-    fecha.setMonth(mes-1);
+    fecha.setMonth(mes - 1);
     fecha.setDate(dia);
     for (let i = 0; i < comentarioParaEscribir.length; i++) {
         if (id == comentarioParaEscribir[i].idDia) {
             listaComentarios.innerHTML += '<p> El comentario del dia ' + fecha.toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' es: ' + comentarioParaEscribir[i].textoAGuarda;
+        }
+    }
+    for (let i = 0; i < comentarioDiaFestivo.length; i++) {
+        if (id == comentarioDiaFestivo[i].idDia) {
+            listaComentarios.innerHTML += '<p> El comentario del dia ' + fecha.toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' es: ' + comentarioDiaFestivo[i].textoAGuarda;
+        }
+    }
+    for (let i = 0; i < comentarioDiaFestivoFix.length; i++) {
+        if (id == comentarioDiaFestivoFix[i].idDia) {
+            listaComentarios.innerHTML += '<p> El comentario del dia ' + fecha.toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' es: ' + comentarioDiaFestivoFix[i].textoAGuarda;
+        }
+    }
+}
+function marcarDiasConComentarios() {
+    if (localStorage.getItem('cositas') === null) {
+        console.log('no ta localStorage');
+    } else {
+        let diasConComentarios = JSON.parse(localStorage.getItem("cositas"));
+        console.log(diasConComentarios);
+        if (Array.isArray(diasConComentarios)) {
+            for (let i = 0; i < diasConComentarios.length; i++) {
+                let diaConComentario = diasConComentarios[i].idDia;
+                let dia = document.getElementById(diaConComentario);
+                if (dia) {
+                    dia.classList.add("dia-con-comentario");
+                }
+            }
+        }
+    }
+}
+function guardarLosFestiusAunals() {
+    fetch('festivos.json')
+        .then(response => response.json())
+        .then(data => {
+            const festiusAnuals = data.festiusAnuals;
+            const festiusFixes = data.festiusFixes;
+            console.log(festiusAnuals);
+            console.log(festiusFixes);
+            let festiusAnualsArray = [];
+            for (let i = 0; i < festiusAnuals.length; i++) {
+                let festiuAnual = festiusAnuals[i];
+                let comentario = {
+                    idDia: festiuAnual.data,
+                    textoAGuarda: festiuAnual.nom_del_festiu
+                };
+                festiusAnualsArray.push(comentario);
+            }
+            localStorage.setItem("festiusAnuals", JSON.stringify(festiusAnualsArray));
+
+            let date = new Date();
+            let anyActual = date.getFullYear();
+            let festiusFixesArray=[];
+            for (let i = 0; i < festiusFixes.length; i++) {
+                let festiuFixes=festiusFixes[i];
+                console.log(festiuFixes);
+                let idDia = anyActual + festiuFixes.data;
+                let textoAGuarda = festiuFixes.nom_del_festiu;
+                let comentario = {
+                    idDia:idDia,
+                    textoAGuarda:textoAGuarda
+                };
+                festiusFixesArray.push(comentario)          
+            }
+            localStorage.setItem('festiusFixes', JSON.stringify(festiusFixesArray));
+        }
+        );
+}
+function marcarLosDiasQueTienenFestivo() {
+    if (localStorage.getItem('festiusAnuals') === null || localStorage.getItem('festiusFixes') === null) {
+        console.log('no ta');
+    } else {
+        let festivoAnual = JSON.parse(localStorage.getItem("festiusAnuals"));
+        let festiuFix=JSON.parse(localStorage.getItem('festiusFixes'));
+        console.log(festivoAnual);
+        console.log(festiuFix);
+        if (Array.isArray(festivoAnual)) {
+            for (let i = 0; i < festivoAnual.length; i++) {
+                let diaConFestivoAnual = festivoAnual[i].idDia;
+                let dia = document.getElementById(diaConFestivoAnual);
+                if (dia) {
+                    dia.classList.add("dia-con-festivo");
+                }
+            }
+        }
+        if (Array.isArray(festivoAnual)) {
+            for (let i = 0; i < festiuFix.length; i++) {
+                let diaConFestiuFix = festiuFix[i].idDia;
+                let dia = document.getElementById(diaConFestiuFix);
+                if (dia) {
+                    dia.classList.add("dia-con-festivo");
+                }
+            }
         }
     }
 }
