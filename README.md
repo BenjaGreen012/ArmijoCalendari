@@ -3,11 +3,3 @@ Faré una taula de 7 per 7 cel·les, les quals estan totes buides. La primera fi
 Cada fila té un "id" amb un número (filaN); això ens simplificarà el codi javascript quan hàgim de buscar el número corresponent a cada cel·la.
 
 En primer lloc buscaré el dia de la setmana del dia 1 del mes. A partir d'aquí buscaré quin dia li correspon a la primera cel·la de la primera fila, i anire onplint files i columnes amb dies consecutius. Amb la funció getDay trobaré en quin dia de la setmana comença, així podré omplir la taula amb els dies ordenats.
-
-En una etapa més avançada podria afegir botons els quals canviaran el mes.
-
-# A067 - Activitat 6 7a part: Fusionar les diferents branques a la branca main.
-Amb l'ajuda del meu QA Engineer (Carbó Garcia, Marc) que m'ha aportat diverses milloràs que he aplicat al calendari.
-![issue](./img/isues.png)
-Però com eren bastant fàcil d'arreglar no he tingut grans complicacions a l'hora de fer els mergs
-![merged](./img/mergs.png)
